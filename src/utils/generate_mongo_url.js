@@ -10,9 +10,9 @@ const generateMongoUrl = (params) => {
   obj.db = params.db || 'test'
   // 数据库有密码
   if (params.userName && params.password) {
-    return "mongodb://" + obj.username + ":" + obj.password + "@" + obj.hostname + ":" + obj.port + "/" + obj.db;
+    return 'mongodb://' + obj.username + ':' + obj.password + '@' + obj.hostname + ':' + obj.port + '/' + obj.db
   } else {
-    return "mongodb://" + obj.hostname + ":" + obj.port + "/" + obj.db;
+    return 'mongodb://' + obj.hostname + ':' + obj.port + '/' + obj.db
   }
 }
 

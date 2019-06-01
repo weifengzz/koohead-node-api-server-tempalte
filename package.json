@@ -9,7 +9,9 @@
     "prod": "npm run build && NODE_ENV=production node ./dist/bin/www",
     "build": "npm run clean && babel ./src --out-dir dist",
     "clean": "rimraf dist",
-    "watch": "nodemon --config ./nodemon.json --"
+    "watch": "nodemon --config ./nodemon.json --",
+    "lint": "eslint ./src",
+    "precommit": "npm run lint"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +23,7 @@
     "debug": "^4.1.1",
     "ejs": "^2.6.1",
     "express": "^4.17.1",
+    "husky": "^2.3.0",
     "morgan": "^1.9.1",
     "rimraf": "^2.6.3"
   },
