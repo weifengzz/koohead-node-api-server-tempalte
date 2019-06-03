@@ -23,6 +23,7 @@
     "debug": "^4.1.1",
     "ejs": "^2.6.1",
     "express": "^4.17.1",
+    "express-session": "^1.16.1",
     "husky": "^2.3.0",
     "morgan": "^1.9.1",
     "rimraf": "^2.6.3"

@@ -5,6 +5,7 @@
  */
 import path from 'path'
 import { generateMongoUrl } from './utils'
+import { privateKey, certificate } from './libs/ssl/ssl_cert'
 
 /**
  * mongodb数据库信息配置
@@ -15,7 +16,7 @@ if (process.env.VCAP_SERVICES) {
   mongodbConfig = env['mongodb-4.0'][0]['credentials']
 } else {
   mongodbConfig = {
-    'hostname' : 'localhost' ,
+    'hostname' : '127.0.0.1' ,
     'port'     :  27017 ,
     'username' :  '' ,//暂时本地测试,
     'password' :  'root' ,
@@ -47,10 +48,19 @@ const SETTINGS = {
 }
 
 /**
+ * https配置
+ */
+const HTTPS_OPTION = {
+  key : privateKey,
+  cert: certificate
+}
+
+/**
  * 导出配置
  */
 export {
   DB,
-  SETTINGS
+  SETTINGS,
+  HTTPS_OPTION
 }
   

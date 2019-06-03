@@ -8,9 +8,9 @@ import tls from 'tls'
 import fs from 'fs'
 import path from 'path'
 
-const privateKey = fs.readFileSync(path.join(__dirname, 'privatekey.pem'))
+const privateKey = fs.readFileSync(path.join(__dirname, '../../../src/libs/ssl/privatekey.pem'))
   .toString()
-const certificate = fs.readFileSync(path.join(__dirname, 'certificate.pem'))
+const certificate = fs.readFileSync(path.join(__dirname, '../../../src/libs/ssl/certificate.pem'))
   .toString()
 
 let credentials = null

@@ -8,26 +8,16 @@ import path from 'path'
 import cookieParser from 'cookie-parser'
 import logger from 'morgan'
 import bodyParser from 'body-parser'
-// import request from 'request'
-// eslint-disable-next-line import/no-unresolved
 import session from 'express-session'
 
-// import { privateKey, certificate } from './libs/ssl/ssl_cert'
+import routes from './routes'
+
 import { SETTINGS } from './config'
 import { isMobile, isIPhone, getCurrentUrlTag } from './utils'
 
-// import indexRouter from './routes/index'
 
 const httpApp = express()
 const httpsApp = express()
-
-/**
- * https配置
- */
-// const HTTPS_OPTION = {
-//   key : privateKey ,
-//   cert: certificate
-// }
 
 /**
  * 设置端口
@@ -38,8 +28,8 @@ httpsApp.set('port', SETTINGS.port_https)
 /**
  * 设置界面地址
  */
-httpApp.set('views', path.join(__dirname, 'src/views'))
-httpsApp.set('views', path.join(__dirname, 'src/views'))
+httpApp.set('views', path.join(__dirname, 'views'))
+httpsApp.set('views', path.join(__dirname, 'views'))
 
 /**
  * 设置界面模板引擎
@@ -72,8 +62,8 @@ httpsApp.use(cookieParser())
 /**
  * 设置静态文件目录
  */
-httpApp.use(express.static(path.join(__dirname , 'public')))
-httpsApp.use(express.static(path.join(__dirname , 'public')))
+httpApp.use(express.static(path.join(__dirname , '../public')))
+httpsApp.use(express.static(path.join(__dirname , '../public')))
 
 /**
  * session配置
@@ -130,3 +120,64 @@ httpsApp.use(function (req , res , next) {
   }
   next()
 })
+
+/**
+ * 路由管理
+ */
+httpApp.use('/', routes)
+httpsApp.use('/', routes)
+
+// catch 404 and forward to error handler
+httpApp.use(function (req , res , next) {
+  var err    = new Error('Not Found')
+  err.status = 404
+  next(err)
+  //return res.render('error-404',{});
+})
+httpsApp.use(function (req , res , next) {
+  var err    = new Error('Not Found')
+  err.status = 404
+  next(err)
+  //return res.render('error-404',{});
+})
+
+// 获取开发环境错误
+if (httpApp.get('env') === 'development') {
+  httpApp.use(function (err , req , res) {
+      res.status(err.status || 500)
+      res.render('error' , {
+          message: err.message ,
+          error  : err
+      })
+  })
+}
+if (httpsApp.get('env') === 'development') {
+  httpsApp.use((err , req , res) => {
+      res.status(err.status || 500)
+      res.render('error' , {
+          message: err.message ,
+          error  : err
+      })
+  })
+}
+
+// 获取生产环境错误
+httpApp.use((err , req , res) => {
+  res.status(err.status || 500)
+  res.render('error' , {
+      message: err.message ,
+      error  : {}
+  })
+})
+httpsApp.use((err , req , res) => {
+  res.status(err.status || 500)
+  res.render('error' , {
+      message: err.message ,
+      error  : {}
+  })
+})
+
+export {
+  httpApp,
+  httpsApp
+}
